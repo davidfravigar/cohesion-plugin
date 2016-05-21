@@ -28,8 +28,8 @@ class Co_controlPanel
 	function __construct()
 	{
 		$this->co_controlPanelConstants();
-		add_action('admin_menu', array($this, 'co_controlPanelAddMenuPage'));
-		add_action('admin_bar_menu', array($this, 'co_controlPanelAddAdminBarItem'), 2000);
+		add_action('admin_menu', array($this, 'co_controlPanelAddMenuPages'));
+		add_action('admin_bar_menu', array($this, 'co_controlPanelAddAdminBarItems'), 2000);
 	}//end
 
 	/**
@@ -51,16 +51,25 @@ class Co_controlPanel
 	 * Add Menu Page
 	 * ---------------------------------------------------------------------------
 	 */
-	function co_controlPanelAddMenuPage()
+	function co_controlPanelAddMenuPages()
 	{
 		add_menu_page(
       __('Cohesion', 'cohesion' ),
-      'cohesion',
+      __('Cohesion', 'cohesion' ),
       'manage_options',
-      CONTROLPANEL_VIEWS . '/controlPanelAdmin.php',
-      '',
+      'cohesion',
+      array($this, 'controlPanelRenderAdminPage'),
       CONTROLPANEL_ASSETS . '/images/cohesionIcon.png',
       6
+    );
+
+    add_submenu_page(
+    	  'cohesion',
+        __('Post Types', 'cohesion'),
+    		__('Post Types', 'cohesion'),
+        'manage_options',
+        'cohesion-posttypes',
+        array($this, 'controlPanelRenderPostTypesPage')
     );
 	}
 
@@ -69,15 +78,36 @@ class Co_controlPanel
 	 * Add navbar item
 	 * ---------------------------------------------------------------------------
 	 */
-	function co_controlPanelAddAdminBarItem()
+	function co_controlPanelAddAdminBarItems()
 	{
 		global $wp_admin_bar;
 		$wp_admin_bar->add_menu(
-			array('id' => MENU_ID,
+			array(
+				'id' => MENU_ID,
 				'title' => __('Cohesion'),
-				'href' => 'admin.php?page=cohesion%2FFramework%2FAdmin%2FControlPanel%2Fviews%2FcontrolPanelAdmin.php',
+				'href' => 'admin.php?page=cohesion',
 			)
 		);
+
+		$wp_admin_bar->add_menu(
+			array(
+				'parent' => MENU_ID,
+				'title' => __('Admin Page'),
+				'id' => 'co_controlPanel-admin',
+				'href' => 'admin.php?page=cohesion',
+				'meta' => array('target' => '_self')
+			)
+		);
+	}
+
+	function controlPanelRenderAdminPage()
+	{
+		require_once(CONTROLPANEL_VIEWS . '/controlPanelAdmin.php');
+	}
+
+	function controlPanelRenderPostTypesPage()
+	{
+		require_once(CONTROLPANEL_VIEWS . '/ControlPanelPostTypes.php');
 	}
 
 }//end class
