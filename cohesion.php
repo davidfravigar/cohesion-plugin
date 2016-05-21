@@ -21,11 +21,16 @@
  * home aboard her starship, custodian of the stolen plans that can save her
  * people and restore freedom to the galaxy...."
  *
- * This is the initializer file for our framework. The actual framework is located
- * in the framework folder. Here we create an array and pass it to the cohesion
- * class to initialize.
+ *A Wordpress framework for rapid creation of projects. This Framework has been
+ * designed as a plugin so that if a new theme is required or simply swapped out
+ * all the post types and taxonomies that have created are all still available
+ * to Wordpress.
  *
- * @author David Fravigar <david@tjs.co.uk>
+ * This framework has also been coded be be modular so it is easier to update.
+ * By having each section or feature within its own folder, it we want to update
+ * the framework we can without breaking it.
+ *
+ * @author David Fravigar <david.fravigar@me.com>
  * @version 0.0.1
  * @see \Framework\Cohesion.class.php
  * -----------------------------------------------------------------------------
@@ -53,9 +58,11 @@ $params = array(
 	'theme_name'				=> 'Cohesion',
 	'plugin_prefix'			=> 'co',
 	'version'						=> '0.0.1',
-	'post_types'				=> array(
-		'name'						=> '',
-	),
+	'dev_email'			=> 'david@tjs.co.uk',
+);
+
+$params = array(
+
 );
 
 /**

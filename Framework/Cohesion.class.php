@@ -33,6 +33,8 @@ class Cohesion
 	private $themeName;
 	private $themePrefix;
 	private $themeVersion;
+	private $postTypes;
+	private $taxonomies;
 
 	/**
 	 * ---------------------------------------------------------------------------
@@ -72,7 +74,7 @@ class Cohesion
 			}
 		}
 
-		//$this->co_setUpFramework();
+		$this->co_frameworkGo();
 	}
 
 	/**
@@ -83,37 +85,57 @@ class Cohesion
 	private function co_constants()
 	{
 		define('COHESION_DIR', plugin_dir_path(__FILE__));
-		define('COHESION_HELPERS_DIR', COHESION_DIR . 'Admin/Helpers');
-		define('COHESION_GENERATORS_DIR', COHESION_DIR . 'Admin/Generators');
+		define('COHESION_HELPERS_DIR', COHESION_DIR . 'Helpers');
+		define('COHESION_GENERATORS_DIR', COHESION_DIR . 'Generators');
+		define('COHESION_ADMIN_DIR', COHESION_DIR . 'Admin');
 	}
 
 	/**
 	 * ---------------------------------------------------------------------------
-	 *
+	 * Include Files
 	 * ---------------------------------------------------------------------------
 	 */
 	private function co_includes()
 	{
-		$this->co_includeFiles('Helpers', COHESION_HELPERS_DIR);
-		$this->co_includeFiles('Generator', COHESION_GENERATORS_DIR);
+		$this->co_includeFiles(COHESION_HELPERS_DIR);
+		$this->co_includeFiles(COHESION_GENERATORS_DIR);
+
+		require_once(COHESION_ADMIN_DIR . '/ControlPanel/ControlPanel.php');
 	}
 
 	/**
 	 * ---------------------------------------------------------------------------
-	 *
+	 * Custom Post Type init
 	 * ---------------------------------------------------------------------------
 	 */
 	private function co_postTypesInit()
 	{
-		
+		foreach($this->postTypes as $postType) {
+			CustomPostTypeGenetor::init($postType);
+		}
+	}
+
+	/**
+	 * ---------------------------------------------------------------------------
+	 * Framework Go
+	 * ---------------------------------------------------------------------------
+	 * This function creates all the classes we need.
+	 * ---------------------------------------------------------------------------
+	 */
+	private function co_frameworkGo()
+	{
+		new Co_controlPanel();
 	}
 
 	/**
 	 * ---------------------------------------------------------------------------
 	 * include files
 	 * ---------------------------------------------------------------------------
+	 * A generic include file function, that scans a directory and includes the
+	 * files it finds in it.
+	 * ---------------------------------------------------------------------------
 	 */
-	private function co_includeFiles($fileType, $sourceFolder)
+	private function co_includeFiles($sourceFolder)
 	{
 		//var_dump($sourceFolder);
 		if(!is_dir($sourceFolder)) {
