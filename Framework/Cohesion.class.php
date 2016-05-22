@@ -70,7 +70,7 @@ class Cohesion
 
 			if(Co_GeneralHelpers::inArray('post_types', $params)) {
 				$this->postTypes = $params['post_types'];
-				$this->co_postTypesInit();
+				add_action('init', array($this, 'co_postTypesInit'));
 			}
 		}
 
@@ -108,10 +108,11 @@ class Cohesion
 	 * Custom Post Type init
 	 * ---------------------------------------------------------------------------
 	 */
-	private function co_postTypesInit()
+	public function co_postTypesInit()
 	{
 		foreach($this->postTypes as $postType) {
-			CustomPostTypeGenetor::init($postType);
+			$postTypeGenerator = new CustomPostTypeGenetor();
+			$postTypeGenerator->init($postType);
 		}
 	}
 

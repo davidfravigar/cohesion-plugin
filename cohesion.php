@@ -51,18 +51,39 @@ require_once('Framework/Cohesion.class.php');
 
 /**
  * -----------------------------------------------------------------------------
+ * post types
+ * -----------------------------------------------------------------------------
+ */
+$postTypes = array(
+	array(
+		'name'					=> 'tenant',
+		'description'		=> 'This is a post post type',
+		'type'					=> 'post',
+		'public'				=> true,
+		'show_in_admin'	=> true,
+		'params'				=> array(),
+	),
+	array(
+		'name'					=> array('property', 'properties'),
+		'description'		=> 'This is a page post type',
+		'type'					=> 'page',
+		'public'				=> true,
+		'show_in_admin'	=> true,
+		'params'				=> array(),
+	)
+);
+
+/**
+ * -----------------------------------------------------------------------------
  * Define our array
  * -----------------------------------------------------------------------------
  */
 $params = array(
-	'theme_name'				=> 'Cohesion',
-	'plugin_prefix'			=> 'co',
-	'version'						=> '0.0.1',
-	'dev_email'			=> 'david@tjs.co.uk',
-);
-
-$params = array(
-
+	'theme_name'			=> 'Cohesion',
+	'plugin_prefix'		=> 'co',
+	'version'					=> '0.0.1',
+	'dev_email'				=> 'david@tjs.co.uk',
+	'post_types'			=> $postTypes,
 );
 
 /**
